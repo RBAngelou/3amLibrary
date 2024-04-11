@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    image: arube/3amlibrary:latest
+    networks:
+      - mynetwork
+  memcache:
+    image: memcached:latest
+    networks:
+      - mynetwork
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8081:80"
+    depends_on:
+      - app
+    networks:
+      - mynetwork
+networks:
+  mynetwork:

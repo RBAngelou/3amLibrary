@@ -14,7 +14,7 @@ func main() {
 	// a: You can check the status of the Memcached server by using the memcache.Stats method. This method returns a map of statistics about the Memcached server, such as the number of items stored, the total memory used, and the number of connections. You can use this information to monitor the health and performance of the Memcached server.
 	// q: How can I
 
-	mc := memcache.New("mymemcache:11211")
+	mc := memcache.New("memcache:11211")
 	if mc == nil {
 		log.Fatal("Failed to create memcache client")
 	}
