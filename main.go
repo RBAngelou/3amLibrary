@@ -1,6 +1,9 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -9,12 +12,25 @@ import (
 	"github.com/bradfitz/gomemcache/memcache"
 )
 
-func main() {
-	// q: How to I check the status of the Memcached server?
-	// a: You can check the status of the Memcached server by using the memcache.Stats method. This method returns a map of statistics about the Memcached server, such as the number of items stored, the total memory used, and the number of connections. You can use this information to monitor the health and performance of the Memcached server.
-	// q: How can I
+type Config struct {
+	Server string `json:"server"`
+	Port   string `json:"port"`
+}
 
-	mc := memcache.New("memcache:11211")
+func main() {
+	// Read configuration from file (replace "config.json" with your actual file path)
+	configFile, err := ioutil.ReadFile("config.json")
+	if err != nil {
+		log.Fatal(fmt.Errorf("failed to read config file: %w", err))
+	}
+
+	// Parse configuration JSON
+	var config Config
+	if err := json.Unmarshal(configFile, &config); err != nil {
+		log.Fatal(fmt.Errorf("failed to unmarshal config: %w", err))
+	}
+
+	mc := memcache.New(fmt.Sprintf("%s:%s", config.Server, config.Port))
 	if mc == nil {
 		log.Fatal("Failed to create memcache client")
 	}

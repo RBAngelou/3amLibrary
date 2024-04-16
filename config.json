@@ -1,0 +1,4 @@
+{
+    "server": "memcache",
+    "port": "11211"
+}
